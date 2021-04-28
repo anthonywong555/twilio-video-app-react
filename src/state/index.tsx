@@ -5,8 +5,9 @@ import { settingsReducer, initialSettings, Settings, SettingsAction } from './se
 import useActiveSinkId from './useActiveSinkId/useActiveSinkId';
 import useFirebaseAuth from './useFirebaseAuth/useFirebaseAuth';
 import usePasscodeAuth from './usePasscodeAuth/usePasscodeAuth';
+import useSalesforceAuth from './useSalesforceAuth/useSalesforceAuth';
 import { User } from 'firebase';
-import LCC from 'lightning-container';
+
 export interface StateContextType {
   error: TwilioError | Error | null;
   setError(error: TwilioError | Error | null): void;
@@ -63,22 +64,7 @@ export default function AppStateProvider(props: React.PropsWithChildren<{}>) {
   } else if (process.env.REACT_APP_SET_AUTH === 'salesforce') {
     contextValue = {
       ...contextValue,
-      getToken: (identity, roomName) => {
-        return new Promise((resolve, reject) => {
-          LCC.callApex(
-            'TwilioVideoController.getAccessTokenForRemote',
-            JSON.stringify({ identity, roomName }),
-            (result, event) => {
-              if (result) {
-                resolve(result);
-              } else if (event.type === 'exception') {
-                reject(event);
-              }
-            },
-            []
-          );
-        });
-      },
+      ...useSalesforceAuth(), // eslint-disable-line react-hooks/rules-of-hooks
     };
   } else {
     contextValue = {
