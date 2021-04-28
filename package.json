@@ -27,6 +27,7 @@
     "firebase-admin": "^9.5.0",
     "fscreen": "^1.0.2",
     "husky": "^3.1.0",
+    "lightning-container": "^1.0.0",
     "linkify-it": "^3.0.2",
     "lint-staged": "^9.5.0",
     "lodash.throttle": "^4.1.1",
